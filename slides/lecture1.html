@@ -2,19 +2,477 @@
 
 <head>
     <link rel="stylesheet" href="reveal.js/dist/reveal.css">
-    <link rel="stylesheet" href="reveal.js/dist/theme/white.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/black.css">
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css">
+    <style>
+        .container {
+            display: flex;
+        }
+    
+        .col {
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body>
     <div class="reveal">
         <div class="slides">
-            <section>Slide 1</section>
-            <section>Slide 2</section>
+
+            <section>
+                <h2>Intro to Deep Learning for Beginners</h2>
+                <p>bootstrap your deep learning journey</p>
+                <div style="font-size: 80%">
+                    <i>
+                        <br> WangShuang@SYSU
+                    </i>
+                </div>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Prerequisites
+                    - Math
+                        - Linear algebra: Matrix, Eigen Value Decomposition, SVD
+                        - Calculus: Derivatives of multivariable functions, Chain rule, Convexity
+                        - Probability theory: Bayes theorem
+                    - Computer
+                        - Programming: OOP concept
+                        - Python: Basic Syntax
+                        - Linux experience(nice to have)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Course Objectives
+                    - Bootstrap Your Deep Learning Journey 
+                        - Like rolling a snowball on slope：once snowball starts to roll, it will move faster and faster
+                    - Specific Goals
+                        - Fundamental Understanding: Concept and Algorithm of Deep Learning
+                        - Practice: Implementation in Python, especially in PyTorch
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Course Methodology
+                    - Idea: why we do this?
+                    - Math: what are the details?
+                    - Code: how to make it?
+                </textarea>
+            </section>
+
+            <section>
+                <h3>Big Picture of Artificial Intelligence</h3>
+                <ul>
+                    <li> Artificial Intelligence
+                        <ul>
+                            <li class="fragment"> Rule Engine </li>
+                            <li class="fragment"> Knowledge Graph </li>
+                            <li class="fragment">
+                                Machine Learning
+                                <ul>
+                                    <li class="fragment">SVM</li>
+                                    <li class="fragment">Decision Tree</li>
+                                    <li class="fragment"><span style="color: red;">Deep Learning</span></li>
+                                    <li class="fragment">etc</li>
+                                </ul>
+                            </li>
+                            <li class="fragment"> etc </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Why Deep Learning?
+                    It's Useful and Powerful!
+                    ![deeplearning tasks](images/deeplearning-tasks.png)
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="https://arxiv.org/pdf/2007.00047.pdf">A Survey on Instance Segmentation: State of the art</a>
+                    </div>
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Deep Learning: highlevel view
+                    Deep learning model is a function with <span style="color:red">many many</span> parameters:
+                    `$$
+                    \mathbf{Y} = f(\mathbf{X}, \mathbf{\Theta})
+                    $$`
+                    - input: image, point cloud, text
+                    - output: category, bbox, Segmentation
+
+                    - parameters numbers:
+                        - AlexNet: 61M
+                        - BERT2: 340M
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    ### Deep Learning: highlevel view
+                    question: how can we build model with so many parameters?   
+                    answer: 
+                    - hierarchy structure: neuron => layer => network
+                    - composition network: small networks => big network
+                </textarea>
+            </section>
+
+            <section>
+                <section>
+                    <h3>Basic block: neuron</h3>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                                ### Neuron: motivation
+                                - multiple inputs
+                                - single output
+                                - ![neuron model](images/MultipolarNeuron.png)
+            
+                                <div style="font-size: 50%">
+                                    <br>
+                                    Image credit:
+                                    <a href="https://en.wikipedia.org/wiki/Neuron">Wikipedia</a>
+                                </div>
+                            </textarea>
+                </section>
+            
+                <section data-markdown>
+                    <textarea data-template>
+                                ## neuron: basic form
+                                 
+                                ![neuron math model](images/neuron_math_model.png)
+            
+                                <div style="font-size: 50%">
+                                    Image credit:
+                                    <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                                </div>
+                            </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                                ## neuron: matrix form
+                                 
+                                ![neuron matrix model](images/neuron_matrix_model.png)
+            
+                                <div style="font-size: 50%">
+                                    Image credit:
+                                    <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                                </div>
+                            </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                                ## neuron: activation function
+                                 
+                                ![neuron with activate function](images/neuron_activate_function.png)
+            
+                                <div style="font-size: 50%">
+                                    Image credit:
+                                    <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                                </div>
+                            </textarea>
+                </section>
+                
+                <section>
+                    <h3>Common Activation Functions</h3>
+                    <div class="container">
+                        <div class="col">
+                            <p>Sigmoid function</p>
+                            <img alt="images/sigmoid_function.png" src="images/sigmoid_function.png">
+                            <pre><code data-trim data-noescape class="python">
+                                            m = nn.Sigmoid()
+                                            input = torch.randn(2)
+                                            output = m(input)
+                                            </code></pre>
+                        </div>
+                    
+                        <div class="col">
+                            <p>Tanh function</p>
+                            <img alt="images/tanh_function.png" src="images/tanh_function.png">
+                            <pre><code data-trim data-noescape>
+                                            m = nn.Tanh()
+                                            input = torch.randn(2)
+                                            output = m(input)
+                                            </code></pre>
+                        </div>
+    
+                        <div class="col">
+                            <p>Relu function</p>
+                            <img alt="images/relu_function.png" src="images/relu_function.png">
+                            <pre><code data-trim data-noescape>
+                                            m = nn.Relu()
+                                            input = torch.randn(2)
+                                            output = m(input)
+                                            </code></pre>
+                        </div>
+                    </div>
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                    </div>
+                </section>
+
+                <section id="activation-question">
+                    Question: why we need activation function, can we get rid of it?
+                    <a href="#/activation-answer"> go to the answer</a>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h3>From Neuron to Layer</h3>
+                </section>
+                <section>
+                    <h3>Stack Neurons</h3>
+                    <div class="container">
+                        <div class="col"> 
+                            <img alt="images/two_neurons.png" src="images/two_neurons.png">
+                        </div>
+                        <div class="col fragment">
+                            \[\begin{aligned}
+                            \mathrm{scalar\ form:\ }  z_i &amp; = b_i + \Sigma_{j=1}^{m} x_j w_{j,i} \\
+                            \mathrm{vector\ form:\ } z_i &amp; = b_i + \mathbf{w}_i \mathbf{x} \\
+                            \mathrm{matrix\ form:\ } \mathbf{z} &amp; = \mathbf{b} + \mathbf{W} \mathbf{x} 
+                            \end{aligned} \]
+                        </div>
+                    </div>
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                    </div>
+                </section>
+                <section>
+                    <h3>Stack More Neurons</h3>
+                    <p style="font-size: 80%;">Dense layer: all inputs are densely connected to all outputs</p>
+                    <div class="container">
+                        <div class="col"> 
+                            <img alt="images/Single_layer.png" src="images/1280px-Single_layer_ann.svg.png">
+                        </div>
+                        <div class="col">
+                            \[
+                            \mathrm{matrix \, form: \,}\mathbf{y} = \mathbf{b} + \mathbf{W} \mathbf{x}
+                            \]
+                        </div>
+                    </div>
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                    </div>
+                </section>
+                <section>
+                    <h3>Dense layers in PyTorch</h3>
+                    <pre><code data-trim data-noescape class="python">
+                        input = torch.randn(128, 20)
+                        dense_layer = nn.Linear(20, 30)
+                        relu = nn.ReLU()
+                        output = relu(dense_layer(input))
+                        print(output.size()) #=>          torch.Size([128, 30])
+                        </code></pre>
+                </section>
+
+            </section>
+
+            <section>
+                <section>
+                    <h3>From  Layer to Network</h3>
+                </section>
+                <section>
+                    <h3>stack two layers</h3>
+                    <p style="font-size: 80%;">Dense layer: all inputs are densely connected to all outputs</p>
+                    <div class="container">
+                        <div class="col"> 
+                            <img alt="images/single_layer_network.png" src="images/single_layer_network.png">
+                        </div>
+                        <div class="col" style="font-size: 70%">
+                            <ol>
+                                <li class="fragment">
+                                    Inputs => Hidden
+                                    \[
+                                    \mathrm{matrix \, form: \,}\mathbf{z} = g(\mathbf{b}^{(1)} + \mathbf{W}^{(1)} \mathbf{x})
+                                    \]
+                                </li>
+                                <li class="fragment">
+                                    Hidden => Output
+                                    \[
+                                    \mathrm{matrix \, form: \,}\hat{\mathbf{y}} =  g(\mathbf{b}^{(2)} + \mathbf{W}^{(2)} \mathbf{z})
+                                    \]
+                                </li>
+                            </ol>
+
+                        </div>
+                    </div>             
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="https://en.wikipedia.org/wiki/Artificial_neural_network#/media/File:Single_layer_ann.svg">Wikipedia</a>
+                    </div>
+                    
+                </section>
+                <section>
+                    <h3>Stack more layers</h3> 
+                    <p>Finally, we come out with <span style="color: red;">Deep Neural Network</span></p>
+                    <img alt="images/multiple_layer_network.png" src="images/multiple_layer_network.png">
+                    <p style="font-size: 80%;">
+                        layer i => layer i+1:  
+                        $
+                        \mathbf{z}_{i+1} = g(\mathbf{b}^{(i)} + \mathbf{W}^{(i)} \mathbf{z}_{i})
+                        $
+                    </p>
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="https://en.wikipedia.org/wiki/Artificial_neural_network#/media/File:Single_layer_ann.svg">Wikipedia</a>
+                    </div>
+                </section>
+                <section>
+                    <h3>Multiple Layer Perceptron in PyTorch</h3>
+                    <pre><code data-trim data-noescape class="python">
+                        input = torch.randn(128, 20)
+                        hidden_layer = nn.Linear(20, 30)
+                        relu = nn.ReLU()
+                        hidden_unit = relu(hidden_layer(input))
+                        output_layer = nn.Linear(30, 2)
+                        output = relu(output_layer(hidden_unit))
+                        print(output.size()) #=>    torch.Size([128, 2])
+                        </code></pre>
+                </section>
+                
+                <section id="activation-answer">
+                    <a href="#/activation-question"> back to the question</a>
+                    <p class="fragment">
+                        the purpose of activation functions is to introduce non-linearities into the network
+                    </p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h3>Train Network</h3>
+                </section>
+                <section>
+                    <h3>Algorithm Skeleton for all Optimization Problems</h3>
+                    <ol>
+                        <li>
+                            initialize parameters
+                        </li>
+                        <li>
+                            while not satisfy stop criteria
+                            <ol>
+                                <li>find the direction toward the target</li>
+                                <li>update parameters</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </section>
+                <section>
+                    <h3>Define Target</h3>
+                    <p> mean squared error loss: used for continuous numbers </p>
+                    <img alt="images/mse_loss.png" src="images/mse_loss.png">
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                    </div>
+                </section>
+                <section>
+                    <h3>Define Target</h3>
+                    <p style="font-size: 95%;"> cross entropy loss: used for probability between 0 and 1 </p>
+                    <img alt="images/cross_entropy_loss.png" src="images/cross_entropy_loss.png">
+                    <div style="font-size: 50%">
+                        Image credit:
+                        <a href="http://introtodeeplearning.com/">MIT 6.S191</a>
+                    </div>
+                </section>
+                <section>
+                    <h3>find direction reduce loss</h3>
+                    
+                </section>
+                <section>Slide 2.3</section>
+                <section>Slide 2.4</section>
+            </section>
+
+            <section>
+                <section>
+                    <h3>Optimizer</h3>
+                </section>
+                <section>Why Optimizer matters?</section>
+                <section>Slide 2.3</section>
+                <section>Slide 2.4</section>
+            </section>
+
+            <section>
+                <section>
+                    <h3>Let's get our hands dirty</h3>
+                </section>
+                <section>
+                    setup python env
+                    install Pytorch
+                </section>
+                <section>Pytorch cheatsheet</section>
+                <section>
+                    Regression problem
+                    house priceing
+                </section>
+                <section>house priceing problem</section>
+                <section>Slide 2.4</section>
+            </section>
+
+            <section>
+                <h3>summary</h3>
+                <ul>
+                    <li>
+                        Full Connection Network
+                    </li>
+                    <li>
+                        Back Propagation
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>Assigment</h3>
+                <ul>
+                    <li>
+                        Recognize digits With Full Connection Network
+                    </li>
+                    <li>
+                        images
+                    </li>
+                    <li>
+                        Links:
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>Next Topic: Convolution Neural Network</h3>
+                <div style="font-size: 80%">
+                    <i>
+                        <br>
+                        <p>slides are at <a href="https://github.com/MrQianJinSi/bootstrap-deeplearning">https://github.com/MrQianJinSi/bootstrap-deeplearning</a></p>
+                    </i>
+                </div>
+            </section>
         </div>
     </div>
+
     <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>    
     <script>
-        Reveal.initialize();
+        Reveal.initialize({
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+                config: 'TeX-AMS_HTML-full',
+                // pass other options into `MathJax.Hub.Config()`
+                TeX: { Macros: { RR: "{\\bf R}" } }
+            },
+            plugins: [ RevealMarkdown, RevealMath, RevealHighlight ]
+        });
     </script>
 </body>
 
